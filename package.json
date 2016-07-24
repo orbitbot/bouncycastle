@@ -1,0 +1,32 @@
+{
+  "name": "bouncycastle",
+  "version": "0.0.1",
+  "description": "",
+  "main": "bouncycastle.js",
+  "scripts": {
+    "develop": "rollup -c --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orbitbot/bouncycastle.git"
+  },
+  "author": "",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/orbitbot/bouncycastle/issues"
+  },
+  "homepage": "https://github.com/orbitbot/bouncycastle#readme",
+  "dependencies": {
+    "fetch-pretender": "1.5.0",
+    "mithril": "git://github.com/lhorie/mithril.js.git#8bc47632eec98e856c9f79b5bf9c10e624427cc4"
+  },
+  "devDependencies": {
+    "rollup": "0.34.1",
+    "rollup-plugin-buble": "0.12.1",
+    "rollup-plugin-commonjs": "3.3.1",
+    "rollup-plugin-filesize": "0.4.4",
+    "rollup-plugin-node-builtins": "1.0.6",
+    "rollup-plugin-node-resolve": "1.7.1",
+    "rollup-watch": "2.5.0"
+  }
+}
