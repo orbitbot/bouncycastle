@@ -26,6 +26,7 @@
     "rollup-plugin-commonjs": "3.3.1",
     "rollup-plugin-filesize": "0.4.4",
     "rollup-plugin-node-builtins": "1.0.6",
+    "rollup-plugin-node-globals": "1.0.5",
     "rollup-plugin-node-resolve": "1.7.1",
     "rollup-watch": "2.5.0"
   }
