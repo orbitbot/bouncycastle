@@ -4,6 +4,7 @@
   "description": "",
   "main": "bouncycastle.js",
   "scripts": {
+    "develop": "webpack --progress --colors --watch",
     "build": "webpack"
   },
   "repository": {

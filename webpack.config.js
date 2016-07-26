@@ -1,9 +1,12 @@
 var webpack = require('webpack');
 
 module.exports = {
-  entry   : './bouncycastle.js',
+  entry : {
+    demo         : './demo.js',
+    bouncycastle :'./bouncycastle.js'
+  },
   devtool : 'source-map',
-  output  : { filename: './build/bouncycastle.js' },
+  output  : { filename: './build/[name].js' },
   module  : {
     loaders: [
       { test: /\.js$/, loader: 'buble' }

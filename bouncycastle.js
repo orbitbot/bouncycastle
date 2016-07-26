@@ -1,7 +1,14 @@
 let Pretender = require('pretender');
-let m = require('mithril');
 
-let server =  new Pretender();
+window.server =  new Pretender();
+
+window.returnFn = function(request) {
+  return [
+    200,
+    {'content-type': 'application/javascript'},
+    '[{"id": 12}, {"id": 14}]'
+  ];
+};
 
 server.handledRequest = function(verb, path, request) {
   console.log(`caught ${ verb } ${ path }`);
@@ -9,15 +16,6 @@ server.handledRequest = function(verb, path, request) {
 
 server.unhandledRequest = function(verb, path, request) {
   console.log(`uncaught ${ verb } ${ path }:`, request);
+  window.unhandled = request;
+  window.path = path;
 };
-
-console.log(Pretender);
-
-function reqListener () {
-  console.log(this.responseText);
-}
-
-var oReq = new XMLHttpRequest();
-oReq.addEventListener("load", reqListener);
-oReq.open("GET", "http://www.example.org/example.txt");
-oReq.send();
