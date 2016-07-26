@@ -1,0 +1,27 @@
+{
+  "name": "bouncycastle",
+  "version": "0.0.1",
+  "description": "",
+  "main": "bouncycastle.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orbitbot/bouncycastle.git"
+  },
+  "author": "",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/orbitbot/bouncycastle/issues"
+  },
+  "homepage": "https://github.com/orbitbot/bouncycastle#readme",
+  "dependencies": {
+    "mithril": "git://github.com/lhorie/mithril.js.git#8bc47632eec98e856c9f79b5bf9c10e624427cc4"
+  },
+  "devDependencies": {
+    "buble": "0.12.5",
+    "buble-loader": "0.2.2",
+    "webpack": "1.13.1"
+  }
+}
