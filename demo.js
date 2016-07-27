@@ -4,6 +4,4 @@ window.m = m;
 
 const view = () => m('p', 'some content')
 
-window.addEventListener('load', function() {
-  m.mount(document.body, { view });
-})
+m.mount(document.body, { view });
