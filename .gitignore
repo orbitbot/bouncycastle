@@ -1,5 +1,5 @@
 node_modules
 *npm-debug.log
 
-build/*.js
-build/*.js.map
+demo/*.js
+demo/*.js.map

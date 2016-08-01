@@ -4,7 +4,9 @@
   "description": "",
   "main": "bouncycastle.js",
   "scripts": {
-    "develop": "webpack --progress --colors --watch",
+    "test": "electron-mocha --renderer --R spec ./test/",
+    "develop": "onchange 'src/*' 'test/*' -- npm t",
+    "browser": "webpack --progress --colors --watch",
     "build": "webpack"
   },
   "repository": {
@@ -23,6 +25,11 @@
   "devDependencies": {
     "buble": "0.12.5",
     "buble-loader": "0.2.2",
+    "chai": "3.5.0",
+    "electron-mocha": "3.0.0",
+    "mocha": "3.0.0",
+    "onchange": "2.5.0",
+    "sinon": "1.17.5",
     "webpack": "1.13.1"
   }
 }
