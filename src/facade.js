@@ -1,6 +1,6 @@
 const Pretender = require('pretender');
 
-const logHandler = (verb, path, request) => console.log.bind(`uncaught ${ verb } ${ path }:`, request)
+const logHandler = (verb, path, request) => { console.log(`uncaught ${ verb } ${ path }:`, request) }
 
 class Facade {
   constructor({ handler = logHandler } = {}) {
@@ -11,7 +11,6 @@ class Facade {
   enable() {
     this.pretender = new Pretender()
     this.pretender.unhandledRequest = this.handler
-    this.unhandledRequests = this.pretender.unhandledRequests
   }
 
   disable() {
