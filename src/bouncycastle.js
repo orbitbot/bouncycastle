@@ -1,22 +1,23 @@
 const Facade = require('./facade.js')
 const m = require('mithril')
-const observableArray = require('./utils/observableArray.js')
 const createMountPoint = require('./utils/createMountPoint.js')
-const RequestList = require('./components/RequestList.js')
+const Wrapper = require('./components/Wrapper.js')
 
 let facade = new Facade()
+let wrapper = Wrapper(facade)
+let enabled = m.prop(true)
 
-facade.pretender.unhandledRequests = observableArray();
-facade.pretender.unhandledRequests.run((value) => {
-  console.log(value)
-})
-
-
-let requestList = RequestList(facade.pretender.unhandledRequests)
+let Widget = {
+  view : () => {
+    return m('div', [
+      m('button', { onclick : () => { enabled(!enabled()) } }, enabled() ? 'disable' : 'enable' ),
+      enabled() ? m(wrapper) : null
+    ])
+  }
+}
 
 createMountPoint('bouncycastle')
-m.mount(document.getElementById('bouncycastle'), requestList)
-
+m.mount(document.getElementById('bouncycastle'), Widget)
 
 window.facade = facade
 window.m = m

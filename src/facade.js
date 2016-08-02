@@ -5,7 +5,6 @@ const logHandler = (verb, path, request) => { console.log(`uncaught ${ verb } ${
 class Facade {
   constructor({ handler = logHandler } = {}) {
     this.handler = handler
-    this.enable()
   }
 
   enable() {
