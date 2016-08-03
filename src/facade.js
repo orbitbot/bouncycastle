@@ -8,6 +8,7 @@ class Facade {
     let facade = this
     facade.enabled = m.prop(false)
     facade.unhandledRequests = observableArray()
+    facade.prompt = m.prop()
 
     facade.enabled.map((enabled) => {
       if (enabled) {
@@ -15,14 +16,19 @@ class Facade {
         facade.pretender = new Pretender()
         facade.pretender.unhandledRequest = (verb, path, request) => {
           console.log(`uncaught ${ verb } ${ path }:`, request)
-          facade.unhandledRequests.push(request)
+          if (!facade.prompt()) {
+            facade.prompt(request)
+          } else {
+            facade.unhandledRequests.push(request)
+          }
         }
       } else {
         console.log('disable')
         facade.unhandledRequests([])
+        facade.prompt(undefined)
         if (facade.pretender) {
           facade.pretender.shutdown()
-          facade.pretender = null
+          facade.pretender = undefined
         }
       }
     })
