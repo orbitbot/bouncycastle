@@ -1,20 +1,39 @@
-const Pretender = require('pretender');
+const Pretender = require('pretender')
+const m = require('mithril')
 
-const logHandler = (verb, path, request) => { console.log(`uncaught ${ verb } ${ path }:`, request) }
+const observableArray = require('./utils/observableArray.js')
 
 class Facade {
-  constructor({ handler = logHandler } = {}) {
-    this.handler = handler
+  constructor() {
+    let facade = this
+    facade.enabled = m.prop(false)
+    facade.unhandledRequests = observableArray()
+
+    facade.enabled.map((enabled) => {
+      if (enabled) {
+        console.log('enable')
+        facade.pretender = new Pretender()
+        facade.pretender.unhandledRequest = (verb, path, request) => {
+          console.log(`uncaught ${ verb } ${ path }:`, request)
+          facade.unhandledRequests.push(request)
+        }
+      } else {
+        console.log('disable')
+        facade.unhandledRequests([])
+        if (facade.pretender) {
+          facade.pretender.shutdown()
+          facade.pretender = null
+        }
+      }
+    })
   }
 
   enable() {
-    this.pretender = new Pretender()
-    this.pretender.unhandledRequest = this.handler
+    this.enabled(true)
   }
 
   disable() {
-    this.pretender.shutdown()
-    this.pretender = null
+    this.enabled(false)
   }
 
   addHandler() {

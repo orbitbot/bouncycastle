@@ -1,17 +1,19 @@
 const Facade = require('./facade.js')
 const m = require('mithril')
 const createMountPoint = require('./utils/createMountPoint.js')
-const Wrapper = require('./components/Wrapper.js')
 
 let facade = new Facade()
-let wrapper = Wrapper(facade)
-let enabled = m.prop(true)
+facade.unhandledRequests.map(m.redraw)
 
 let Widget = {
   view : () => {
     return m('div', [
-      m('button', { onclick : () => { enabled(!enabled()) } }, enabled() ? 'disable' : 'enable' ),
-      enabled() ? m(wrapper) : null
+      facade.enabled()
+        ? [
+            m('button', { onclick: () => { facade.enabled(false) } }, 'disable'),
+            m('ul', facade.unhandledRequests().map((req) => { return m('li', req.url) }))
+          ]
+        : m('button', { onclick: () => { facade.enabled(true) } }, 'enable' )
     ])
   }
 }
