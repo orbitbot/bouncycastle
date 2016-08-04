@@ -1,46 +1,48 @@
 const m = require('mithril')
-const Behave = require('behave.js')
+const Textarea = require('./Textarea.js')
 
 module.exports = {
 
   oninit : ({ state, attrs : { facade } }) => {
     state.request = facade.prompt()
-    state.textContent = m.prop()
+    state.responseType = m.prop('json')
+    state.responseType.map(m.redraw)
 
-    state.handleKeyDown = (e) => {
-      if (state.editor) {
-        setTimeout(() => {
-          state.textContent(e.target.value)
+    state.jsContent = m.prop('function(request) {\n  return [200, {}, "{}"]\n}')
+    state.jsonReply = {
+      code    : m.prop(200),
+      headers : {},
+      body    : m.prop('{\n  \n}')
+    }
 
-          var numLines = e.target.value.split("\n").length,
-              lineHeight = parseInt(getComputedStyle(e.target)['line-height']),
-              padding = parseInt(getComputedStyle(e.target)['padding']);
-
-          e.target.style.height = ((numLines * lineHeight) + (2 * padding)) + 'px';
-
-        }, 0)
-      }
+    state.getView = (type) => {
+      return {
+        json :  m('div', [
+                  m('span', ['Response code', m('input', { type: Number, value : state.jsonReply.code })]),
+                  m(Textarea, { content : state.jsonReply.body })
+                ]),
+        pass : m('p', { style : '' }, 'Allow request to pass through to server'),
+        js   : m(Textarea, { content : state.jsContent })
+      }[type]
     }
   },
 
-  oncreate : ({ state, dom }) => {
-    state.editor = new Behave({
-      textarea   : dom,
-      replaceTab : true,
-      softTabs   : true,
-      tabSize    : 2,
-      autoOpen   : true,
-      overwrite  : true,
-      autoStrip  : true,
-      autoIndent : true
-    })
-  },
+  view : ({ state, attrs : { facade } }) =>
+    [
+      m('div', `Unhandled request: ${ state.request.method } ${ state.request.url }`),
+      m('div', [
+        m('button', { onclick: () => state.responseType('json') }, 'JSON'),
+        m('button', { onclick: () => state.responseType('pass') }, 'Passthrough'),
+        // m('button', { onclick: state.responseType('json') }, 'Record')
+        m('button', { onclick: () => state.responseType('js') }, 'Custom')
+      ]),
+      m('div', [
+        m('span', 'Path editor'),
+        m('input', { type: 'text', value: state.request.url })
+      ]),
 
-  onremove : ({ state }) => {
-    state.editor.destroy()
-  },
+      state.getView(state.responseType()),
 
-  view : ({ state, attrs : { facade } }) => {
-    return m('textarea', { onkeydown: state.handleKeyDown, style: 'font-size: 1em; line-height: 1.1em; font-family:monospace; width:100%; min-height: 4.3em; overflow: hidden; padding: 0.5em; resize: none' })
-  }
+      m('button', { onclick : () => facade.prompt(undefined) }, 'Done')
+    ]
 }
