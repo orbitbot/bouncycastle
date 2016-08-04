@@ -25,6 +25,18 @@ module.exports = {
         js   : m(Textarea, { content : state.jsContent })
       }[type]
     }
+
+    state.addHandler = () => {
+      var responseType = state.responseType()
+
+      if (responseType === 'pass') {
+        facade.addHandler(state.request.method, state.request.url, facade.pretender.passthrough, false)
+      } else if (responseType === 'js') {
+
+      } else {
+
+      }
+    }
   },
 
   view : ({ state, attrs : { facade } }) =>
@@ -43,6 +55,6 @@ module.exports = {
 
       state.getView(state.responseType()),
 
-      m('button', { onclick : () => facade.prompt(undefined) }, 'Done')
+      m('button', { onclick : state.addHandler }, 'Done')
     ]
 }

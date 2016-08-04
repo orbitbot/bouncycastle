@@ -22,6 +22,10 @@ class Facade {
             facade.unhandledRequests.push(request)
           }
         }
+
+        facade.pretender.passthroughRequest = (verb, path, request) => {
+          console.log(`passthrough ${ verb } ${ path }:`, request)
+        }
       } else {
         console.log('disable')
         facade.unhandledRequests([])
@@ -43,7 +47,14 @@ class Facade {
   }
 
   addHandler() {
-    return this.pretender.register.apply(this.pretender, arguments);
+    let requestQueue = [this.prompt()].concat(this.unhandledRequests())
+    this.pretender.register.apply(this.pretender, arguments);
+    this.unhandledRequests([])
+    this.prompt(undefined)
+    requestQueue.map((req) => {
+      req.sendFlag = false
+      req.send()
+    })
   }
 
   handleRequest() {
