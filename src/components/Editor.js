@@ -8,7 +8,8 @@ module.exports = {
     state.responseType = m.prop('json')
     state.responseType.map(m.redraw)
 
-    state.jsContent = m.prop('function(request) {\n  return [200, {}, "{}"]\n}')
+    state.path = m.prop(state.request.url)
+    state.jsContent = m.prop("function(request) {\n  return [200, {}, '{}']\n}")
     state.jsonReply = {
       code    : m.prop(200),
       headers : {},
@@ -18,10 +19,10 @@ module.exports = {
     state.getView = (type) => {
       return {
         json :  m('div', [
-                  m('span', ['Response code', m('input', { type: Number, value : state.jsonReply.code })]),
+                  m('span', ['Response code', m('input', { value : state.jsonReply.code(), oninput : m.withAttr('value', state.jsonReply.code) })]),
                   m(Textarea, { content : state.jsonReply.body })
                 ]),
-        pass : m('p', { style : '' }, 'Allow request to pass through to server'),
+        pass : m('p', 'Allow request to pass through to server'),
         js   : m(Textarea, { content : state.jsContent })
       }[type]
     }
@@ -30,11 +31,14 @@ module.exports = {
       var responseType = state.responseType()
 
       if (responseType === 'pass') {
-        facade.addHandler(state.request.method, state.request.url, facade.pretender.passthrough, false)
+        facade.addHandler(state.request.method, state.path(), facade.pretender.passthrough, false)
       } else if (responseType === 'js') {
-
+        eval(`var handler = ${ state.jsContent().replace(/\r?\n|\r/g, '') } `)
+        facade.addHandler(state.request.method, state.path(), handler, false)
       } else {
-
+        facade.addHandler(state.request.method, state.path(), function() {
+          return [state.jsonReply.code(), {}, state.jsonReply.body()]
+        }, false)
       }
     }
   },
@@ -50,7 +54,7 @@ module.exports = {
       ]),
       m('div', [
         m('span', 'Path editor'),
-        m('input', { type: 'text', value: state.request.url })
+        m('input', { value: state.path(), oninput : m.withAttr('value', state.path) })
       ]),
 
       state.getView(state.responseType()),
