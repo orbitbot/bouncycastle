@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/orbitbot/bouncycastle#readme",
   "dependencies": {
-    "behave.js": "github:iamso/Behave.js",
+    "misbehave": "0.0.6",
     "mithril": "git://github.com/lhorie/mithril.js.git#8bc47632eec98e856c9f79b5bf9c10e624427cc4"
   },
   "devDependencies": {
