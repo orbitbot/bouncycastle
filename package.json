@@ -21,7 +21,7 @@
   "homepage": "https://github.com/orbitbot/bouncycastle#readme",
   "dependencies": {
     "misbehave": "0.0.6",
-    "mithril": "git://github.com/lhorie/mithril.js.git#8bc47632eec98e856c9f79b5bf9c10e624427cc4"
+    "mithril": "git://github.com/lhorie/mithril.js.git#9c4ebc866708a080d294d4eabd9f9e6198201778"
   },
   "devDependencies": {
     "buble": "0.12.5",

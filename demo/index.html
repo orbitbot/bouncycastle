@@ -29,6 +29,19 @@ code {
 </head>
 
 <body>
+  <button onclick="sendRequest()" style="margin-bottom: 2em">Send request</button>
   <script src="./bouncycastle.js"></script>
-  <script src="./demo.js"></script>
+<script>
+function sendRequest() {
+  m.request({
+    method: "GET",
+    url: "http://jsonplaceholder.typicode.com/posts/1",
+    extract: function(xhr) { return { xhr: xhr, status: xhr.status, body: xhr.responseText } }
+  })
+  .run(function(response) {
+    window.xhr = response
+    console.log(response.status, response.body)
+  })
+}
+</script>
 </body>
