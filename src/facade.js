@@ -47,7 +47,7 @@ class Facade {
   }
 
   addHandler() {
-    let requestQueue = [this.prompt()].concat(this.unhandledRequests() || [])
+    let requestQueue = [].concat(this.unhandledRequests() || [], this.prompt() || [])
     this.pretender.register.apply(this.pretender, arguments);
     this.unhandledRequests([])
     this.prompt(undefined)

@@ -22,6 +22,23 @@ module.exports = {
       if (responseType === 0) {
         facade.addHandler(state.request.method, state.path(), facade.pretender.passthrough, false)
       } else if (responseType === 1) {
+        let xhr = state.request
+        let origRSC = xhr.onreadystatechange
+        xhr.onreadystatechange = () => {
+          origRSC()
+          if (xhr.readyState === 4) {
+            let headers = {}
+            xhr.getAllResponseHeaders().split('\r\n').forEach(function(el) {
+              if (el !== '') {
+                header = el.split(':')
+                headers[header[0]] = header[1].trim()
+              }
+            })
+            facade.addHandler(xhr.method, state.path(), function() { return [xhr.status, headers, xhr.responseText] } , false)
+          }
+        }
+        facade.addHandler(state.request.method, state.path(), facade.pretender.passthrough, false)
+      } else if (responseType === 2) {
         facade.addHandler(state.request.method, state.path(), function() {
           return [state.jsonReply.code(), {}, state.jsonReply.body()]
         }, false)
@@ -37,9 +54,9 @@ module.exports = {
       m('div', `Unhandled request: ${ state.request.method } ${ state.request.url }`),
       m('div', [
         m('button', { onclick: () => state.responseType(0) }, 'Passthrough'),
-        m('button', { onclick: () => state.responseType(1) }, 'JSON'),
-        // m('button', { onclick: state.responseType('json') }, 'Record')
-        m('button', { onclick: () => state.responseType(2) }, 'Custom')
+        m('button', { onclick: () => state.responseType(1) }, 'Record'),
+        m('button', { onclick: () => state.responseType(2) }, 'JSON'),
+        m('button', { onclick: () => state.responseType(3) }, 'Custom')
       ]),
       m('div', [
         m('span', 'Path editor'),
@@ -47,8 +64,13 @@ module.exports = {
       ]),
 
       m('div', [
+        // 0
         m('p', 'Allow request to pass through to server'),
 
+        // 1
+        m('p', 'Record response, allow request to pass through to server once and return the same response for subsequent requests'),
+
+        // 2
         m('div', [
           m('div', [
             'Response code',
@@ -64,6 +86,7 @@ module.exports = {
           ])
         ]),
 
+        // 3
         m(Editable, { content : state.jsContent })
       ][state.responseType()]),
 
