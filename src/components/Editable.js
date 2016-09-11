@@ -1,9 +1,10 @@
 const m = require('mithril')
 const Misbehave = require('misbehave')
+const styles = require('./Editable.style.js')
 
 module.exports = {
-  view : ({ state, attrs : { content } }) => {
-    return m('pre',
+  view : ({ attrs : { content } }) => {
+    return m('pre', { style: styles.pre },
       m({
         oncreate : ({ state, dom }) => {
           state.editor = new Misbehave(dom, { onchange : content })
@@ -13,8 +14,8 @@ module.exports = {
           state.editor.destroy()
         },
 
-        view : ({ state, dom }) => {
-          return m('code', { contenteditable: true, textContent: content() })
+        view : ({ dom }) => {
+          return m('code', { contenteditable: true, textContent: content(), style: styles.code })
         }
       }
     ))

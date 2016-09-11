@@ -1,5 +1,6 @@
 const m = require('mithril')
 const Editable = require('./Editable.js')
+const styles = require('./common.style.js')
 
 module.exports = {
 
@@ -49,18 +50,20 @@ module.exports = {
     }
   },
 
-  view : ({ state, attrs : { facade } }) =>
-    [
-      m('div', `Unhandled request: ${ state.request.method } ${ state.request.url }`),
+  view : ({ state }) =>
+    m('div', { style: styles.wrapper }, [
+      m('div', `${ state.request.method } ${ state.request.url }`),
+
+      m('div', [
+        m('span', 'Path'),
+        m('input', { value: state.path(), oninput : m.withAttr('value', state.path) })
+      ]),
+
       m('div', [
         m('button', { onclick: () => state.responseType(0) }, 'Passthrough'),
         m('button', { onclick: () => state.responseType(1) }, 'Record'),
         m('button', { onclick: () => state.responseType(2) }, 'JSON'),
         m('button', { onclick: () => state.responseType(3) }, 'Custom')
-      ]),
-      m('div', [
-        m('span', 'Path editor'),
-        m('input', { value: state.path(), oninput : m.withAttr('value', state.path) })
       ]),
 
       m('div', [
@@ -91,5 +94,5 @@ module.exports = {
       ][state.responseType()]),
 
       m('button', { onclick : state.addHandler }, 'Done')
-    ]
+    ])
 }
