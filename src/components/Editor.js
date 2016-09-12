@@ -1,6 +1,33 @@
 const m = require('mithril')
+const j2c = require('j2c')
 const Editable = require('./Editable.js')
-const styles = require('./common.style.js')
+const common = require('./common.style.js')
+
+let req = {
+  row : j2c.inline({
+    margin_bottom: '0.4em',
+    display: 'flex'
+  }),
+  method : j2c.inline([{
+    display: 'inline-block',
+    background: 'powderblue',
+    border_top_left_radius: '2px',
+    border_bottom_left_radius: '2px',
+    padding: '0.6em',
+    text_transform: 'uppercase',
+    font_weight: 600,
+  }, common.text]),
+  url : j2c.inline([{
+    background: '#f4f4f4',
+    padding: '0.6em',
+    box_sizing: 'border-box',
+    outline: 'none',
+    border: 'none',
+    border_top_right_radius: '2px',
+    border_bottom_right_radius: '2px',
+    flex: '1'
+  }, common.text])
+}
 
 module.exports = {
 
@@ -51,15 +78,14 @@ module.exports = {
   },
 
   view : ({ state }) =>
-    m('div', { style: styles.wrapper }, [
-      m('div', `${ state.request.method } ${ state.request.url }`),
-
-      m('div', [
-        m('span', 'Path'),
-        m('input', { value: state.path(), oninput : m.withAttr('value', state.path) })
+    m('div', { style: common.wrapper }, [
+      m('div', { style: req.row }, [
+        m('span', { style: req.method }, state.request.method ),
+        m('input', { value: state.path(), oninput : m.withAttr('value', state.path), style: req.url })
       ]),
 
-      m('div', [
+      m('div', { style: req.row}, [
+        m('span', 'Action'),
         m('button', { onclick: () => state.responseType(0) }, 'Passthrough'),
         m('button', { onclick: () => state.responseType(1) }, 'Record'),
         m('button', { onclick: () => state.responseType(2) }, 'JSON'),
@@ -68,10 +94,10 @@ module.exports = {
 
       m('div', [
         // 0
-        m('p', 'Allow request to pass through to server'),
+        m('p', { style: common.text }, 'Allow request to pass through to server'),
 
         // 1
-        m('p', 'Record response, allow request to pass through to server once and return the same response for subsequent requests'),
+        m('p', { style: common.text }, 'Record response, allow request to pass through to server once and return the same response for subsequent requests'),
 
         // 2
         m('div', [
