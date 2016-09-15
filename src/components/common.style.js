@@ -17,21 +17,21 @@ let right_borders = {
   border_bottom_right_radius: border_radius,
 }
 
-let text = j2c.inline({
+let text = {
   font_family,
   font_size
-})
+}
 
-let wrapper = j2c.inline({
+let wrapper = {
   max_width: '30em',
   margin: '0 auto 1em',
   background : '#fff',
   box_shadow: '0 11px 7px 0 rgba(0, 0, 0, 0.19)',
   padding: '0.8em',
   border_radius
-})
+}
 
-let button = j2c.inline([{
+let button = j2c.sheet([{
   text_transform: 'uppercase',
 }, text])
 

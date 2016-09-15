@@ -1,37 +1,14 @@
 const m = require('mithril')
 const j2c = require('j2c')
 const Editable = require('./Editable.js')
-const common = require('./common.style.js')
+const styles = require('../utils/styles.js')
+const css = require('./Editor.style.js')
 
-let req = {
-  row : j2c.inline({
-    margin_bottom: '0.4em',
-    display: 'flex'
-  }),
-  method : j2c.inline([{
-    display: 'inline-block',
-    background: 'powderblue',
-    border_top_left_radius: '2px',
-    border_bottom_left_radius: '2px',
-    padding: '0.6em',
-    text_transform: 'uppercase',
-    font_weight: 600,
-  }, common.text]),
-  url : j2c.inline([{
-    background: '#f4f4f4',
-    padding: '0.6em',
-    box_sizing: 'border-box',
-    outline: 'none',
-    border: 'none',
-    border_top_right_radius: '2px',
-    border_bottom_right_radius: '2px',
-    flex: '1'
-  }, common.text])
-}
 
 module.exports = {
 
   oninit : ({ state, attrs : { facade } }) => {
+    styles.add(css)
     state.request = facade.prompt()
     state.responseType = m.prop(0)
     state.responseType.map(m.redraw)
@@ -77,14 +54,16 @@ module.exports = {
     }
   },
 
+  onremove : () => styles.remove(css),
+
   view : ({ state }) =>
-    m('div', { style: common.wrapper }, [
-      m('div', { style: req.row }, [
-        m('span', { style: req.method }, state.request.method ),
-        m('input', { value: state.path(), oninput : m.withAttr('value', state.path), style: req.url })
+    m(`.${ css.editor}`, [
+      m('.row', [
+        m('span.header', state.request.method ),
+        m('input', { value: state.path(), oninput : m.withAttr('value', state.path) })
       ]),
 
-      m('div', { style: req.row}, [
+      m('.row', [
         m('span', 'Action'),
         m('button', { onclick: () => state.responseType(0) }, 'Passthrough'),
         m('button', { onclick: () => state.responseType(1) }, 'Record'),
@@ -92,12 +71,12 @@ module.exports = {
         m('button', { onclick: () => state.responseType(3) }, 'Custom')
       ]),
 
-      m('div', [
+      m('.row', [
         // 0
-        m('p', { style: common.text }, 'Allow request to pass through to server'),
+        m('p', 'Allow request to pass through to server'),
 
         // 1
-        m('p', { style: common.text }, 'Record response, allow request to pass through to server once and return the same response for subsequent requests'),
+        m('p', 'Record response, allow request to pass through to server once and return the same response for subsequent requests'),
 
         // 2
         m('div', [
@@ -119,6 +98,6 @@ module.exports = {
         m(Editable, { content : state.jsContent })
       ][state.responseType()]),
 
-      m('button', { onclick : state.addHandler }, 'Done')
+      m('row', m('button', { onclick : state.addHandler }, 'Done'))
     ])
 }

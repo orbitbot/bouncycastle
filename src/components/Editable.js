@@ -1,23 +1,25 @@
 const m = require('mithril')
 const Misbehave = require('misbehave')
-const styles = require('./Editable.style.js')
+const styles = require('../utils/styles.js')
+const css = require('./Editable.style.js')
 
 module.exports = {
-  view : ({ attrs : { content } }) => {
-    return m('pre', { style: styles.pre },
-      m({
-        oncreate : ({ state, dom }) => {
-          state.editor = new Misbehave(dom, { onchange : content })
-        },
+  oninit : () => styles.add(css),
+  onremove : () =>  styles.remove(css),
 
-        onremove : ({ state }) => {
-          state.editor.destroy()
-        },
+  view : ({ attrs : { content } }) => m(`pre.${ css.editable }`,
+    m({
+      oncreate : ({ state, dom }) => {
+        state.editor = new Misbehave(dom, { onchange : content })
+      },
 
-        view : ({ dom }) => {
-          return m('code', { contenteditable: true, textContent: content(), style: styles.code })
-        }
+      onremove : ({ state }) => {
+        state.editor.destroy()
+      },
+
+      view : ({ dom }) => {
+        return m('code', { contenteditable: true, textContent: content() })
       }
-    ))
-  }
+    }
+  ))
 }
