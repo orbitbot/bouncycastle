@@ -1,9 +1,8 @@
 const m = require('mithril')
-const j2c = require('j2c')
+const h = require('../utils/mithrilWrapper.js')
 const Editable = require('./Editable.js')
 const styles = require('../utils/styles.js')
 const css = require('./Editor.style.js')
-
 
 module.exports = {
 
@@ -36,7 +35,7 @@ module.exports = {
             xhr.getAllResponseHeaders().split('\r\n').forEach(function(el) {
               if (el !== '') {
                 header = el.split(':')
-                headers[header[0]] = header[1].trim()
+                headers[header[0]] = header[1].trih()
               }
             })
             facade.addHandler(xhr.method, state.path(), function() { return [xhr.status, headers, xhr.responseText] } , false)
@@ -57,47 +56,47 @@ module.exports = {
   onremove : () => styles.remove(css),
 
   view : ({ state }) =>
-    m(`.${ css.editor}`, [
-      m('.row', [
-        m('span.header', state.request.method ),
-        m('input', { value: state.path(), oninput : m.withAttr('value', state.path) })
+    h('.editor', [
+      h('.row', [
+        h('span.header', state.request.method ),
+        h('input', { value: state.path(), oninput : m.withAttr('value', state.path) })
       ]),
 
-      m('.row', [
-        m('span', 'Action'),
-        m('button', { onclick: () => state.responseType(0) }, 'Passthrough'),
-        m('button', { onclick: () => state.responseType(1) }, 'Record'),
-        m('button', { onclick: () => state.responseType(2) }, 'JSON'),
-        m('button', { onclick: () => state.responseType(3) }, 'Custom')
+      h('.row', [
+        h('span', 'Action'),
+        h('button', { onclick: () => state.responseType(0) }, 'Passthrough'),
+        h('button', { onclick: () => state.responseType(1) }, 'Record'),
+        h('button', { onclick: () => state.responseType(2) }, 'JSON'),
+        h('button', { onclick: () => state.responseType(3) }, 'Custom')
       ]),
 
-      m('.row', [
+      h('.row', [
         // 0
-        m('p', 'Allow request to pass through to server'),
+        h('p', 'Allow request to pass through to server'),
 
         // 1
-        m('p', 'Record response, allow request to pass through to server once and return the same response for subsequent requests'),
+        h('p', 'Record response, allow request to pass through to server once and return the same response for subsequent requests'),
 
         // 2
-        m('div', [
-          m('div', [
+        h('div', [
+          h('div', [
             'Response code',
-            m('input', { value : state.jsonReply.code(), oninput : m.withAttr('value', state.jsonReply.code) })
+            h('input', { value : state.jsonReply.code(), oninput : m.withAttr('value', state.jsonReply.code) })
           ]),
-          m('div', [
+          h('div', [
             'Headers',
-            m(Editable, { content : state.jsonReply.headers })
+            h(Editable, { content : state.jsonReply.headers })
           ]),
-          m('div', [
+          h('div', [
             'Body',
-            m(Editable, { content : state.jsonReply.body })
+            h(Editable, { content : state.jsonReply.body })
           ])
         ]),
 
         // 3
-        m(Editable, { content : state.jsContent })
+        h(Editable, { content : state.jsContent })
       ][state.responseType()]),
 
-      m('row', m('button', { onclick : state.addHandler }, 'Done'))
+      h('row', h('button', { onclick : state.addHandler }, 'Done'))
     ])
 }

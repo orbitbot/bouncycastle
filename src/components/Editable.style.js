@@ -2,13 +2,13 @@ const j2c = require('j2c')
 
 module.exports = j2c.sheet({
   '.editable' : {
-    outline: '2px dotted #ddd',
+    background: '#f4f4f4',
     padding: '1em',
     margin: '.5em 0',
     overflow: 'auto',
     border_radius: '0.3em',
 
-    ' > code': {
+    ' code': {
       outline: 'none',
       display: 'block',
       background: 'none',

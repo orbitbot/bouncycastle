@@ -4,12 +4,12 @@ const common = require('./common.style.js')
 module.exports = j2c.sheet({
   '.editor'  : [common.wrapper, common.text, {
 
-    ' > .row' : {
+    ' .row' : {
       margin_bottom: '0.4em',
       display: 'flex'
     },
 
-    ' > .header' : {
+    ' .header' : {
       display: 'inline-block',
       background: 'powderblue',
       border_top_left_radius: '2px',
