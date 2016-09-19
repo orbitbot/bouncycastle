@@ -7,7 +7,7 @@
     "test": "electron-mocha --renderer --R spec ./test/",
     "develop": "onchange 'src/*' 'test/*' -- npm t",
     "browser": "webpack --progress --colors --watch",
-    "wright": "node_modules/Wright/bin/wright demo/index.html -s ./demo -r 'm.redraw()'",
+    "wright": "node_modules/wright/bin/wright demo/index.html -s ./demo -r 'm.redraw()'",
     "build": "webpack"
   },
   "repository": {
@@ -21,8 +21,10 @@
   },
   "homepage": "https://github.com/orbitbot/bouncycastle#readme",
   "dependencies": {
+    "j2c": "github:pygy/j2c#v1_preview",
     "misbehave": "0.0.6",
-    "mithril": "git://github.com/lhorie/mithril.js.git#9c4ebc866708a080d294d4eabd9f9e6198201778"
+    "mithril": "git://github.com/lhorie/mithril.js.git#9c4ebc866708a080d294d4eabd9f9e6198201778",
+    "pretender": "1.2.0"
   },
   "devDependencies": {
     "buble": "0.12.5",
@@ -33,6 +35,6 @@
     "onchange": "2.5.0",
     "sinon": "1.17.5",
     "webpack": "1.13.1",
-    "wright": "0.1.0"
+    "wright": "git://github.com/porsager/Wright"
   }
 }

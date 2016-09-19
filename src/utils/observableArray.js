@@ -1,6 +1,6 @@
-const m = require('mithril');
+const m = require('mithril')
 
-const ObservableArray = () => {
+module.exports = () => {
   let stream = m.prop([])
 
   stream.push = (...args) => {
@@ -18,5 +18,3 @@ const ObservableArray = () => {
 
   return stream;
 }
-
-module.exports = ObservableArray
