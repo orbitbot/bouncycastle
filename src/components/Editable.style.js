@@ -3,6 +3,7 @@ const j2c = require('j2c')
 module.exports = j2c.sheet({
   '.editable' : {
     background: '#f4f4f4',
+    width: '100%',
     padding: '1em',
     margin: '.5em 0',
     overflow: 'auto',

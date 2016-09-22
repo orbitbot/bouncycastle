@@ -8,7 +8,8 @@ module.exports = (facade) => ({
   oninit : () => styles.add(css),
   onremove : () =>  styles.remove(css),
 
-  view : () => h('.widget', [
+  view : () =>
+    h('.widget', [
       h('button', { onclick: () => { facade.enabled( !facade.enabled()) } }, facade.enabled() ? 'disable' : 'enable'),
       facade.enabled()
         ? h('div', [

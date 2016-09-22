@@ -70,7 +70,7 @@ module.exports = {
         h('button', { onclick: () => state.responseType(3) }, 'Custom')
       ]),
 
-      h('.row', [
+      h('div', [
         // 0
         h('p', 'Allow request to pass through to server'),
 

@@ -23,7 +23,7 @@
   "dependencies": {
     "j2c": "github:pygy/j2c#v1_preview",
     "misbehave": "0.0.6",
-    "mithril": "git://github.com/lhorie/mithril.js.git#9c4ebc866708a080d294d4eabd9f9e6198201778",
+    "mithril": "github:lhorie/mithril.js.git#rewrite",
     "pretender": "1.2.0"
   },
   "devDependencies": {
