@@ -7,7 +7,7 @@
     "test": "electron-mocha --renderer --R spec ./test/",
     "develop": "onchange 'src/*' 'test/*' -- npm t",
     "browser": "webpack --progress --colors --watch",
-    "wright": "node_modules/wright/bin/wright demo/index.html -s ./demo -r 'm.redraw()'",
+    "wright": "npm run browser & wright demo/index.html -r 'm.redraw()'",
     "build": "webpack"
   },
   "repository": {

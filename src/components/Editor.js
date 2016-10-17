@@ -35,7 +35,7 @@ module.exports = {
             xhr.getAllResponseHeaders().split('\r\n').forEach(function(el) {
               if (el !== '') {
                 header = el.split(':')
-                headers[header[0]] = header[1].trih()
+                headers[header[0]] = header[1].trim()
               }
             })
             facade.addHandler(xhr.method, state.path(), function() { return [xhr.status, headers, xhr.responseText] } , false)
@@ -59,7 +59,7 @@ module.exports = {
     h('.editor', [
       h('.row', [
         h('span.header', state.request.method ),
-        h('input', { value: state.path(), oninput : m.withAttr('value', state.path) })
+        h('input.path', { value: state.path(), oninput : m.withAttr('value', state.path) })
       ]),
 
       h('.row', [
@@ -79,9 +79,9 @@ module.exports = {
 
         // 2
         h('div', [
-          h('div', [
-            'Response code',
-            h('input', { value : state.jsonReply.code(), oninput : m.withAttr('value', state.jsonReply.code) })
+          h('div.response_code_container', [
+            h('span', 'Response code'),
+            h('input.response_code', { value : state.jsonReply.code(), oninput : m.withAttr('value', state.jsonReply.code) })
           ]),
           h('div', [
             'Headers',

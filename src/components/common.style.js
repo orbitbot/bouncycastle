@@ -8,11 +8,11 @@ let editable_background = {
 }
 
 let border_radius = '2px'
-let left_borders = {
+let left_corners = {
   border_top_left_radius: border_radius,
   border_bottom_left_radius: border_radius,
 }
-let right_borders = {
+let right_corners = {
   border_top_right_radius: border_radius,
   border_bottom_right_radius: border_radius,
 }
@@ -31,9 +31,32 @@ let wrapper = {
   border_radius
 }
 
-let button = j2c.sheet([{
-  text_transform: 'uppercase',
-}, text])
+let button = [{
+  position: 'relative',
+  display: 'block',
+  // margin: 'auto 0.6em',
+  padding: '0.4em',
+  overflow: 'hidden',
+
+  border_width: '0',
+  outline: 'none',
+  border_radius: border_radius,
+  box_shadow: '0 1px 2px rgba(0, 0, 0, .2)',
+
+// .btn:hover, .btn:focus {
+//   background-color: #27ae60;
+// }
+
+// .btn > * {
+//   position: relative;
+// }
+
+// .btn span {
+//   display: block;
+//   padding: 12px 24px;
+// }
+
+}, text]
 
 
 module.exports = ({
@@ -41,7 +64,7 @@ module.exports = ({
   button,
   editable_background,
   border_radius,
-  left_borders,
-  right_borders,
+  left_corners,
+  right_corners,
   text,
 })

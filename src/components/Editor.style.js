@@ -4,6 +4,13 @@ const common = require('./common.style.js')
 module.exports = j2c.sheet({
   '.editor'  : [common.wrapper, common.text, {
 
+    z_index: '99',
+    position: 'fixed',
+    width: '100%',
+    top: '5em',
+    left: '50%',
+    transform: 'translateX(-50%)',
+
     ' .row' : {
       margin_bottom: '0.4em',
       display: 'flex'
@@ -22,12 +29,22 @@ module.exports = j2c.sheet({
     ' input' : [common.text, {
       background: '#f4f4f4',
       padding: '0.6em',
-      box_sizing: 'border-box',
       outline: 'none',
       border: 'none',
-      border_top_right_radius: '2px',
-      border_bottom_right_radius: '2px',
       flex: '1'
+    }],
+
+    ' button' : [common.button],
+
+    ' .path' : [common.right_corners],
+
+    ' .response_code_container' : {
+      display : 'flex',
+      align_items : 'baseline'
+    },
+
+    ' .response_code' : [common.left_corners, common.right_corners, {
+      margin_left: '0.6em'
     }]
   }]
 })

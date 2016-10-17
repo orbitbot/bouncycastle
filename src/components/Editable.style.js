@@ -8,6 +8,7 @@ module.exports = j2c.sheet({
     margin: '.5em 0',
     overflow: 'auto',
     border_radius: '0.3em',
+    box_sizing: 'border-box',
 
     ' code': {
       outline: 'none',
